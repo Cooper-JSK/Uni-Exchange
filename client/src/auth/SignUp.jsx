@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import signUpImage from '../assets/images/sign-up.svg';
-import useSignUp from '../hooks/useSignUp';
+import useSignUp from '../hooks/useSignUp.jsx';
 
 const SignUpPage = () => {
     const [formData, setFormData] = useState({
@@ -23,7 +23,7 @@ const SignUpPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         await registerUser(formData);
-        navigate('/home');
+        navigate('/profile');
     };
 
     return (
