@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext.jsx';
 import axios from 'axios';
 import QuestionCard from '../components/QuestionCard.jsx';
 import AnswerCard from '../components/AnswerCard.jsx';
-import DashSidebar from '../components/DashSidebar';
+import DashSideBar from '../components/DashSideBar.jsx';
 
 const Dashboard = () => {
     const { userData } = useAuth();
@@ -40,7 +40,7 @@ const Dashboard = () => {
                 </div>
             </div>
             <div className="flex">
-                <DashSidebar setView={setView} />
+                <DashSideBar setView={setView} />
                 <div className="flex-1 ml-6">
                     {view === 'questions' && (
                         <div>
