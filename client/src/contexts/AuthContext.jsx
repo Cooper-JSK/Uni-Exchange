@@ -9,8 +9,6 @@ export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
 
-
-
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem('user_data'))
         console.log('Stored Data:', storedData);

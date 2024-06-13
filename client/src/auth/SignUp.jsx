@@ -20,10 +20,14 @@ const SignUpPage = () => {
         });
     };
 
+    const handleClick = () => {
+        navigate('/sign-in');
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         await registerUser(formData);
-        navigate('/profile');
+        navigate('/');
     };
 
     return (
@@ -85,6 +89,9 @@ const SignUpPage = () => {
                         >
                             {loading ? 'Signing Up...' : 'Sign Up'}
                         </button>
+
+                        <button className="bg-green-500 text-white p-2 px-4 mx-2 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600"
+                            onClick={handleClick}>Sign In</button>
                     </form>
                 </div>
             </div>

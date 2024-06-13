@@ -22,7 +22,7 @@ const SignInPage = () => {
         e.preventDefault();
         const success = await signInUser(formData);
         if (success) {
-            navigate('/profile');
+            navigate('/');
         }
     };
 

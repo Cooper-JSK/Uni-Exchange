@@ -1,4 +1,5 @@
 import Question from '../models/questionModel.js';
+import Answer from '../models/answerModel.js'; // Assuming you have an Answer model
 
 // Create a new question
 export const createQuestion = async (req, res) => {
@@ -15,7 +16,7 @@ export const createQuestion = async (req, res) => {
 // Get all questions
 export const getAllQuestions = async (req, res) => {
     try {
-        const questions = await Question.find().populate('author', 'username');
+        const questions = await Question.find().populate('author', '_id username profileImage');
         if (!questions) {
             return res.status(404).json({ message: 'No questions at the moment' });
         }
@@ -26,16 +27,21 @@ export const getAllQuestions = async (req, res) => {
     }
 };
 
-// Get a single question
+// Get a single question by ID
 export const getQuestionById = async (req, res) => {
     try {
-        const question = await Question.findById(req.params.id);
+        const { id } = req.params;
+        const question = await Question.findById(id).populate('author', '_id username profileImage');
+        const answers = await Answer.find({ question: id }).populate('author', ' _id username profileImage');
+
         if (!question) {
-            return res.status(404).json({ message: 'Question is not found' });
+            return res.status(404).json({ message: 'Question not found' });
+
         }
-        res.status(200).json(question);
+
+        res.status(200).json({ question, answers });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).json({ message: error.message });
     }
 };

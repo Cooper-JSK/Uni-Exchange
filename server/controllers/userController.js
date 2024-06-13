@@ -1,4 +1,6 @@
 import User from '../models/userModel.js';
+import Question from '../models/questionModel.js';
+import Answer from '../models/answerModel.js';
 
 // Create a new user
 export const createUser = async (req, res) => {
@@ -49,7 +51,10 @@ export const getUserById = async (req, res) => {
 };
 
 // Update a user by ID
-export const updateUserById = async (req, res) => {
+export const updateUserById = async (req, res, next) => {
+    if (req.user.id != req.params.id) {
+        return next(errorHandler(401, "You can only update your profile"))
+    }
     try {
         const user = await User.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
@@ -72,6 +77,28 @@ export const deleteUserById = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
         res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+// Get user questions
+export const getUserQuestions = async (req, res) => {
+    try {
+        const questions = await Question.find({ author: req.params.id });
+        res.json(questions);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+// Get user answers
+export const getUserAnswers = async (req, res) => {
+    try {
+        const answers = await Answer.find({ author: req.params.id }).populate('question');
+        res.json(answers);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

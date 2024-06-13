@@ -3,7 +3,19 @@ import Answer from '../models/answerModel.js';
 // Create a new answer
 export const createAnswer = async (req, res) => {
     try {
-        const newAnswer = new Answer(req.body);
+        // Check if the user ID from the token matches the ID in the request body
+        if (req.body.author !== req.user.id) {
+            return res.status(403).json({ message: 'Unauthorized: User ID does not match.' });
+        }
+
+        const { content, question, author } = req.body;
+
+        const newAnswer = new Answer({
+            content,
+            author,
+            question // Ensure the author is set to the user ID from the token
+        });
+
         const savedAnswer = await newAnswer.save();
         res.status(201).json(savedAnswer);
     } catch (error) {
@@ -11,6 +23,7 @@ export const createAnswer = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Get all answers
 export const getAllAnswers = async (req, res) => {

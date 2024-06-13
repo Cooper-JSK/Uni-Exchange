@@ -4,6 +4,7 @@ import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { errorHandler } from '../utils/errorHandler.js';
 import generateUsername from '../utils/usernameGenerator.js';
+import generateAvatarUrl from '../utils/avatarGenerator.js';
 
 // Register a new user
 export const signup = async (req, res, next) => {
@@ -17,8 +18,9 @@ export const signup = async (req, res, next) => {
 
         const hashedPassword = bcryptjs.hashSync(password, 10);
         const username = await generateUsername(name);
+        const profileImage = generateAvatarUrl(username);
 
-        const newUser = new User({ name, username, email, password: hashedPassword });
+        const newUser = new User({ name, username, email, password: hashedPassword, profileImage });
         await newUser.save();
 
         // Generate token

@@ -7,10 +7,11 @@ import {
     updateAnswerById,
     deleteAnswerById
 } from '../controllers/answerController.js';
+import { verifyToken } from '../utils/verifiedUser.js';
 
 const router = express.Router();
 
-router.post('/', createAnswer);
+router.post('/', verifyToken, createAnswer);
 router.get('/', getAllAnswers);
 router.get('/:id', getAnswerById);
 router.get('/question/:questionId', getAnswersByQuestionId);

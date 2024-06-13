@@ -21,7 +21,7 @@ app.use(cors({
 //route
 app.use('/api/user', userRoute)
 app.use('/api/auth', authRoute);
-app.use('/api/question', questionRoute)
+app.use('/api/questions', questionRoute)
 app.use('/api/answer', answerRoute);
 
 app.get('/', (req, res) => {

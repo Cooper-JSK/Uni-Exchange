@@ -2,15 +2,17 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import QAForm from '../components/Form';
 import toast from 'react-hot-toast';
+import { useAuth } from '../contexts/AuthContext';
 
 const AskQuestion = () => {
     const navigate = useNavigate();
+    const { userData, token } = useAuth();
     const handleSubmit = async (formData) => {
-        const authorId = '665d800bb7f3cbe1628e6b7a'; // Hardcoded author ID for testing
-        const questionData = { ...formData, author: authorId };
+        const authorId = userData.id // Hardcoded author ID for testing
+        const questionData = { ...formData, author: authorId, token: token };
 
         try {
-            const response = await axios.post('http://localhost:5555/api/question', questionData);
+            const response = await axios.post('http://localhost:5555/api/questions', questionData);
             console.log(response.data);
             toast.success('Question submitted successfully!');
             navigate('/')

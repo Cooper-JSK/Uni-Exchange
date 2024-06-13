@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     },
     profileImage: {
         type: String,
-        default: "https://avatar.iran.liara.run/public"
+        default: "https://api.dicebear.com/8.x/lorelei/svg"
     }
 }, {
     timestamps: true,
