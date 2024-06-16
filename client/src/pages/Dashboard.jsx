@@ -39,9 +39,9 @@ const Dashboard = () => {
                     <p className="text-2xl">{answers.length}</p>
                 </div>
             </div>
-            <div className="flex">
+            <div className="flex flex-col md:flex-row">
                 <DashSideBar setView={setView} />
-                <div className="flex-1 ml-6">
+                <div className="flex-1 mt-4 md:mt-0 md:ml-6">
                     {view === 'questions' && (
                         <div>
                             <h2 className="text-xl font-semibold mb-4">Your Questions</h2>

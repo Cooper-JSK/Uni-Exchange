@@ -1,6 +1,8 @@
 import User from '../models/userModel.js';
 import Question from '../models/questionModel.js';
 import Answer from '../models/answerModel.js';
+import bcryptjs from 'bcryptjs'
+import generateAvatarUrl from '../utils/avatarGenerator.js';
 
 // Create a new user
 export const createUser = async (req, res) => {
@@ -52,33 +54,73 @@ export const getUserById = async (req, res) => {
 
 // Update a user by ID
 export const updateUserById = async (req, res, next) => {
+    const { id } = req.params;
+    const { username, currentPassword, newPassword } = req.body;
+
     if (req.user.id != req.params.id) {
         return next(errorHandler(401, "You can only update your profile"))
     }
     try {
-        const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
-        });
+        const user = await User.findById(id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        res.status(200).json(user);
+
+        // Check current password if new password is provided
+        if (newPassword) {
+            const isMatch = bcryptjs.compareSync(currentPassword, user.password);
+            if (!isMatch) {
+                return res.status(400).json({ message: 'Current password is incorrect' });
+            }
+
+            const salt = bcryptjs.hashSync(newPassword, 10)
+            user.password = salt
+        }
+
+        // Update username if provided
+        if (username) {
+            user.username = username;
+            const profileImage = generateAvatarUrl(username);
+            user.profileImage = profileImage;
+        }
+
+        await user.save();
+        res.status(200).json({ message: 'Profile updated successfully' });
+
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
 // Delete a user by ID
 export const deleteUserById = async (req, res) => {
+    const userId = req.params.id;
+    const { deleteContent } = req.body; // This flag determines whether to delete questions and answers
+
     try {
-        const user = await User.findByIdAndDelete(req.params.id);
+        const user = await User.findById(userId);
+
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        res.status(200).json({ message: 'User deleted successfully' });
+
+        if (deleteContent) {
+            // Delete the user's questions and answers
+            await Question.deleteMany({ author: userId });
+            await Answer.deleteMany({ author: userId });
+        } else {
+            // Optionally, you could update the author field to 'Deleted User' or similar instead of deleting
+            await Question.updateMany({ author: userId }, { author: null });
+            await Answer.updateMany({ author: userId }, { author: null });
+        }
+
+        await user.deleteOne();
+        res.status(200).json({ message: 'User and content deleted successfully' });
+
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -103,3 +145,12 @@ export const getUserAnswers = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+export const getCount = async (req, res) => {
+    try {
+        const count = await User.countDocuments();
+        res.json({ count });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}

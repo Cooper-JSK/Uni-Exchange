@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import signUpImage from '../assets/images/sign-up.svg';
+import { toast } from 'react-hot-toast';
+import signInImage from '../assets/images/signin.svg';
 import useSignIn from '../hooks/useSignIn';
 
 const SignInPage = () => {
@@ -22,17 +23,27 @@ const SignInPage = () => {
         e.preventDefault();
         const success = await signInUser(formData);
         if (success) {
+            toast.success('Successfully signed in!');
             navigate('/');
+        } else {
+            toast.error('Failed to sign in.');
         }
     };
 
     return (
-        <div className="flex items-center justify-center h-screen">
-            <div className="bg-white rounded-lg shadow-lg p-8 flex flex-col md:flex-row">
-                <div className="md:w-1/2 md:ml-4">
-                    <h2 className="text-2xl font-bold mb-4">Sign In</h2>
+        <div className="flex items-center justify-center h-screen bg-gray-100">
+            <div className="bg-white rounded-lg shadow-lg p-8 flex flex-col md:flex-row w-full max-w-4xl">
+                <div className="md:w-1/2 hidden md:flex items-center justify-center p-4">
+                    <img
+                        src={signInImage}
+                        alt="Sign In"
+                        className="object-cover w-full h-full rounded-lg"
+                    />
+                </div>
+                <div className="md:w-1/2 p-4">
+                    <h2 className="text-3xl font-bold mb-6">Sign In</h2>
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-4 pt-2">
+                        <div className="mb-4">
                             <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
                             <input
                                 type="email"
@@ -56,22 +67,25 @@ const SignInPage = () => {
                                 required
                             />
                         </div>
-                        {error && <p className="text-red-500">{error}</p>}
+                        {error && <p className="text-red-500 mb-4">{error}</p>}
                         <button
                             type="submit"
-                            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full"
                             disabled={loading}
                         >
                             {loading ? 'Signing In...' : 'Sign In'}
                         </button>
+                        <div className='flex justify-between mt-4'>
+                            <p className="text-gray-700">Don't have an account?</p>
+                            <button
+                                type="button"
+                                onClick={() => navigate('/sign-up')}
+                                className="text-blue-500 hover:underline"
+                            >
+                                Sign Up
+                            </button>
+                        </div>
                     </form>
-                </div>
-                <div className="md:w-1/2 mb-4 md:mb-0 hidden md:block">
-                    <img
-                        src={signUpImage}
-                        alt="Signup"
-                        className="object-cover w-full h-full rounded-lg"
-                    />
                 </div>
             </div>
         </div>

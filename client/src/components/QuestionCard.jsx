@@ -9,20 +9,21 @@ const QuestionCard = ({
     author = 'Default Author',
     authorId = '',
     createdAt = 'Default Date',
-    category = 'Default Category',
+    category = [],
     profile = ''
 }) => {
-    return (
-        <div className="p-5 my-3 border rounded shadow-md bg-white flex flex-col">
-            <div className="flex items-center mb-4">
-                <Link to={`/user/${authorId}`}>
-                    <img
-                        src={profile}
-                        alt="User Profile"
-                        className="w-12 h-12 rounded-full mr-4"
-                    />
-                </Link>
 
+    return (
+        <div className="bg-white shadow-md rounded-lg p-4 mb-4 mx-auto max-w-2xl">
+            <div className="flex items-center mb-4">
+                {authorId &&
+                    (<Link to={`/user/${authorId}`}>
+                        <img
+                            src={profile}
+                            alt="User Profile"
+                            className="w-12 h-12 rounded-full mr-4"
+                        />
+                    </Link>)}
                 <div>
                     <p className="text-sm font-semibold">{author}</p>
                     <p className="text-xs text-gray-500">{createdAt}</p>
@@ -37,7 +38,16 @@ const QuestionCard = ({
                 <p className="text-gray-700">{content}</p>
             </div>
             <div className="mt-auto flex justify-between">
-                <p className="text-blue-500 font-semibold">{category}</p>
+                <div className="flex flex-wrap">
+                    {category.map((tag, index) => (
+                        <span
+                            key={index}
+                            className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+                        >
+                            {tag}
+                        </span>
+                    ))}
+                </div>
                 <Link
                     to={`/question/${id}`}
                     className="font-bold text-blue-500 hover:underline"
@@ -45,7 +55,6 @@ const QuestionCard = ({
                     View Question
                 </Link>
             </div>
-
         </div>
     );
 };
@@ -57,7 +66,7 @@ QuestionCard.propTypes = {
     author: PropTypes.string,
     authorId: PropTypes.string,
     createdAt: PropTypes.string,
-    category: PropTypes.string,
+    category: PropTypes.arrayOf(PropTypes.string), // Updated to accept an array of strings
     profile: PropTypes.string
 };
 

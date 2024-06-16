@@ -86,3 +86,13 @@ export const deleteAnswerById = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+
+export const getCount = async (req, res) => {
+    try {
+        const count = await Answer.countDocuments();
+        res.json({ count });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}

@@ -7,15 +7,17 @@ import { useAuth } from '../contexts/AuthContext';
 const AskQuestion = () => {
     const navigate = useNavigate();
     const { userData, token } = useAuth();
+
     const handleSubmit = async (formData) => {
-        const authorId = userData.id // Hardcoded author ID for testing
-        const questionData = { ...formData, author: authorId, token: token };
+        const authorId = userData.id;
+        const categories = formData.categories ? formData.categories.split(',').map(cat => cat.trim()) : [];
+        const questionData = { ...formData, author: authorId, categories, token };
 
         try {
             const response = await axios.post('http://localhost:5555/api/questions', questionData);
             console.log(response.data);
             toast.success('Question submitted successfully!');
-            navigate('/')
+            navigate('/');
         } catch (error) {
             console.error(error);
             toast.error('Failed to submit the question.');

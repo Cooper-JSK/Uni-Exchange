@@ -5,6 +5,7 @@ import userRoute from './routes/userRoute.js'
 import questionRoute from './routes/questionRoute.js'
 import answerRoute from './routes/answerRoute.js'
 import authRoute from './routes/authRoute.js'
+import searchRoute from './routes/searchRoute.js'
 import cors from 'cors'
 
 // middlewares
@@ -23,6 +24,7 @@ app.use('/api/user', userRoute)
 app.use('/api/auth', authRoute);
 app.use('/api/questions', questionRoute)
 app.use('/api/answer', answerRoute);
+app.use('/api/search', searchRoute);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');

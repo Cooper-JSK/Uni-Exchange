@@ -12,6 +12,8 @@ import PrivateRoute from './components/PrivateRoute.jsx'
 import About from './pages/About.jsx'
 import ViewQuestion from './pages/ViewQuestion.jsx'
 import Dashboard from './pages/Dashboard.jsx'
+import SearchResults from './components/searchResults.jsx'
+import Settings from './pages/Settings.jsx'
 
 
 const App = () => {
@@ -25,14 +27,19 @@ const App = () => {
         <Route path='/about' element={<About />} />
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
+        <Route path="/search" element={<SearchResults />} />
+        <Route path="/edit-question/:id" element={<PrivateRoute element={EditQuestion} />} />
+        <Route path="/edit-answer/:id" element={<PrivateRoute element={EditAnswer} />} />
         <Route path='/question/:id' element={<ViewQuestion />} />
         <Route path="/question/:id/give-answer" element={<GiveAnswer />} />
         <Route path='/user/:id' element={<PrivateRoute element={Profile} />} />
+        <Route path='/settings/:id' element={<PrivateRoute element={Settings} />} />
         <Route path='/ask-question' element={<PrivateRoute element={AskQuestion} />} />
         <Route path='/question/edit' element={<PrivateRoute element={EditQuestion} />} />
         <Route path='/answer' element={<PrivateRoute element={GiveAnswer} />} />
         <Route path='/answer/edit' element={<PrivateRoute element={EditAnswer} />} />
         <Route path='/dashboard' element={<PrivateRoute element={Dashboard} />} />
+
 
       </Routes>
     </BrowserRouter>

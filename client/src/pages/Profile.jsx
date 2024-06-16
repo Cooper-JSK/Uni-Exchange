@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
     const { userData, logout } = useAuth();
@@ -49,11 +49,11 @@ const Profile = () => {
         <div className="max-w-6xl mx-auto p-6 bg-gray-100">
             {profileData ? (
                 <>
-                    <div className="flex items-center bg-white p-6 rounded-lg shadow-lg">
+                    <div className="flex flex-col md:flex-row items-center bg-white p-6 rounded-lg shadow-lg">
                         <img
                             src={profileData.profileImage}
                             alt="Profile"
-                            className="w-32 h-32 rounded-full mr-6"
+                            className="w-32 h-32 rounded-full mr-6 mb-4 md:mb-0"
                         />
                         <div>
                             <h2 className="text-2xl font-semibold">{profileData.username}</h2>
@@ -61,8 +61,8 @@ const Profile = () => {
                             <p className="text-gray-600">Joined on {new Date(profileData.createdAt).toLocaleDateString()}</p>
                         </div>
                     </div>
-                    <div className="flex mt-6">
-                        <div className="w-2/3 mr-6">
+                    <div className="flex flex-col md:flex-row mt-6">
+                        <div className="w-full md:w-2/3 md:mr-6 mb-6 md:mb-0">
                             <h3 className="text-xl font-semibold mb-4">Recent Questions</h3>
                             {recentQuestions.length > 0 ? (
                                 recentQuestions.map((question) => (
@@ -76,7 +76,7 @@ const Profile = () => {
                                 <p>No recent questions found.</p>
                             )}
                         </div>
-                        <div className="w-1/3">
+                        <div className="w-full md:w-1/3">
                             <h3 className="text-xl font-semibold mb-4">Recent Answers</h3>
                             {recentAnswers.length > 0 ? (
                                 recentAnswers.map((answer) => (

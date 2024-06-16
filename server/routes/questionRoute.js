@@ -4,16 +4,24 @@ import {
     getAllQuestions,
     getQuestionById,
     updateQuestionById,
-    deleteQuestionById
+    deleteQuestionById,
+    getCategories, getQuestionsByCategory,
+    getCount
 } from '../controllers/questionController.js';
+import { verifyToken } from '../utils/verifiedUser.js';
 
 const router = express.Router();
 
 router.post('/', createQuestion);
 router.get('/', getAllQuestions);
+router.get('/count', getCount);
+router.get('/categories', getCategories);
+router.get('/questions/category/:category', getQuestionsByCategory);
 router.get('/:id', getQuestionById);
-router.patch('/:id', updateQuestionById);
-router.delete('/:id', deleteQuestionById);
+router.patch('/:id', verifyToken, updateQuestionById);
+router.delete('/:id', verifyToken, deleteQuestionById);
+
+router.get('/questions/category/:category', getQuestionsByCategory);
 
 
 

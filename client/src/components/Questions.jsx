@@ -27,11 +27,11 @@ const Questions = () => {
                     id={question._id}
                     title={question.title}
                     content={question.content}
-                    author={question.author.username}
-                    authorId={question.author._id}
+                    author={question.author ? question.author.username : 'Deleted User'} // Handle deleted author gracefully
+                    authorId={question.author ? question.author._id : null} // Assuming you need authorId even if author is null
                     category={question.category}
                     createdAt={question.createdAt}
-                    profile={question.author.profileImage}
+                    profile={question.author ? question.author.profileImage : null} // Assuming profileImage is optional
                 />
             ))}
         </div>

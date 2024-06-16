@@ -15,12 +15,22 @@ const questionSchema = new mongoose.Schema({
         required: true,
     },
     category: {
-        type: String,
+        type: [String],
         required: true,
     }
 }, {
     timestamps: true,
 })
+
+
+questionSchema.pre('remove', async function (next) {
+    try {
+        await mongoose.model('Answer').deleteMany({ question: this._id });
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
 
 const Question = mongoose.model('Question', questionSchema);
 export default Question;

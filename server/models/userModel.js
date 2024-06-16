@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     },
     username: {
         type: String,
+        default: 'Deleted User',
         required: true,
         unique: true
     },

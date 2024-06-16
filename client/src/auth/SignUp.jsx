@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import signUpImage from '../assets/images/sign-up.svg';
 import useSignUp from '../hooks/useSignUp.jsx';
 
@@ -8,6 +9,7 @@ const SignUpPage = () => {
         name: '',
         email: '',
         password: '',
+        confirmPassword: '',
     });
 
     const { registerUser, loading, error } = useSignUp();
@@ -20,32 +22,36 @@ const SignUpPage = () => {
         });
     };
 
-    const handleClick = () => {
-        navigate('/sign-in');
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await registerUser(formData);
-        navigate('/');
+        if (formData.password !== formData.confirmPassword) {
+            toast.error("Passwords do not match.");
+            return;
+        }
+        const success = await registerUser(formData);
+        if (success) {
+            toast.success('Successfully signed up!');
+            navigate('/');
+        } else {
+            toast.error('Failed to sign up.');
+        }
     };
 
+
     return (
-        <div className="flex items-center justify-center h-screen">
-            <div className="bg-white rounded-lg shadow-lg p-8 flex flex-col md:flex-row">
-                {/* Left column for image */}
-                <div className="md:w-1/2 mb-4 md:mb-0 hidden md:block">
+        <div className="flex items-center justify-center h-screen bg-gray-100">
+            <div className="bg-white rounded-lg shadow-lg p-8 flex flex-col md:flex-row w-full max-w-4xl">
+                <div className="md:w-1/2 hidden md:flex items-center justify-center p-4">
                     <img
                         src={signUpImage}
-                        alt="Signup"
+                        alt="Sign Up"
                         className="object-cover w-full h-full rounded-lg"
                     />
                 </div>
-                {/* Right column for sign-up form */}
-                <div className="md:w-1/2 md:ml-4">
-                    <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
+                <div className="md:w-1/2 p-4">
+                    <h2 className="text-3xl font-bold mb-6">Sign Up</h2>
                     <form onSubmit={handleSubmit}>
-                        <div>
+                        <div className="mb-4">
                             <label htmlFor="name" className="block text-gray-700 font-bold mb-2">Name</label>
                             <input
                                 type="text"
@@ -57,7 +63,7 @@ const SignUpPage = () => {
                                 required
                             />
                         </div>
-                        <div className="mb-4 pt-2">
+                        <div className="mb-4">
                             <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
                             <input
                                 type="email"
@@ -81,17 +87,36 @@ const SignUpPage = () => {
                                 required
                             />
                         </div>
-                        {error && <p className="text-red-500">{error}</p>}
+                        <div className="mb-4">
+                            <label htmlFor="confirmPassword" className="block text-gray-700 font-bold mb-2">Confirm Password</label>
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                                required
+                            />
+                        </div>
+                        {error && <p className="text-red-500 mb-4">{error}</p>}
                         <button
                             type="submit"
-                            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 w-full"
                             disabled={loading}
                         >
                             {loading ? 'Signing Up...' : 'Sign Up'}
                         </button>
-
-                        <button className="bg-green-500 text-white p-2 px-4 mx-2 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600"
-                            onClick={handleClick}>Sign In</button>
+                        <div className="flex justify-between mt-4">
+                            <p className="text-gray-700">Already have an account?</p>
+                            <button
+                                type="button"
+                                onClick={() => navigate('/sign-in')}
+                                className="text-blue-500 hover:underline"
+                            >
+                                Sign In
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

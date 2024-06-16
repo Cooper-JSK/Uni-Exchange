@@ -16,12 +16,15 @@ const useSignUp = () => {
             if (res.status === 201) {
                 console.log('Success');
                 login(res.data.token, res.data.user);
+                return true;
             } else {
                 setError(res.data.message || 'Signup failed');
+                return false;
             }
         } catch (error) {
             console.error(error);
             setError(error.response?.data?.message || 'Signup failed');
+            return false;
         } finally {
             setLoading(false);
         }
