@@ -14,6 +14,7 @@ import ViewQuestion from './pages/ViewQuestion.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import SearchResults from './components/searchResults.jsx'
 import Settings from './pages/Settings.jsx'
+import FeatureRequestForm from './components/FeatureRequestForm.jsx'
 
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
         <Route path="/search" element={<SearchResults />} />
+        <Route path="/feature-request" element={<FeatureRequestForm />} />
         <Route path="/edit-question/:id" element={<PrivateRoute element={EditQuestion} />} />
         <Route path="/edit-answer/:id" element={<PrivateRoute element={EditAnswer} />} />
         <Route path='/question/:id' element={<ViewQuestion />} />
