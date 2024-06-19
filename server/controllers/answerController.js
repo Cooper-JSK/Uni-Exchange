@@ -109,16 +109,23 @@ export const upVoteAnswer = async (req, res, next) => {
             return next(errorHandler(404, 'Answer not found.'));
         }
 
+        let voteChanged = false;
+
         if (answer.downvotes.includes(userId)) {
             // Remove the user from downvotes
             answer.downvotes = answer.downvotes.filter(vote => vote.toString() !== userId.toString());
-            answer.votes = answer.votes + 1;
+            voteChanged = true;
         }
 
-        if (answer.upvotes.includes(userId)) {
-            return next(errorHandler(400, 'You have already upvoted this answer.'));
-        } else {
+        if (!answer.upvotes.includes(userId)) {
             answer.upvotes.push(userId);
+            if (voteChanged) {
+                answer.votes = answer.votes + 2; // Removed downvote (-1) and added upvote (+1)
+            } else {
+                answer.votes = answer.votes + 1;
+            }
+        } else {
+            return next(errorHandler(400, 'You have already upvoted this answer.'));
         }
 
         await answer.save();
@@ -139,16 +146,23 @@ export const downVoteAnswer = async (req, res, next) => {
             return next(errorHandler(404, 'Answer not found.'));
         }
 
+        let voteChanged = false;
+
         if (answer.upvotes.includes(userId)) {
             // Remove the user from upvotes
             answer.upvotes = answer.upvotes.filter(vote => vote.toString() !== userId.toString());
-            answer.votes = answer.votes - 1;
+            voteChanged = true;
         }
 
-        if (answer.downvotes.includes(userId)) {
-            return next(errorHandler(400, 'You have already downvoted this answer.'));
-        } else {
+        if (!answer.downvotes.includes(userId)) {
             answer.downvotes.push(userId);
+            if (voteChanged) {
+                answer.votes = answer.votes - 2; // Removed upvote (+1) and added downvote (-1)
+            } else {
+                answer.votes = answer.votes - 1;
+            }
+        } else {
+            return next(errorHandler(400, 'You have already downvoted this answer.'));
         }
 
         await answer.save();
