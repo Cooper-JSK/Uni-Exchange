@@ -1,4 +1,5 @@
 import Answer from '../models/answerModel.js';
+import { errorHandler } from '../utils/errorHandler.js';
 
 // Create a new answer
 export const createAnswer = async (req, res) => {
@@ -111,6 +112,7 @@ export const upVoteAnswer = async (req, res, next) => {
         if (answer.downvotes.includes(userId)) {
             // Remove the user from downvotes
             answer.downvotes = answer.downvotes.filter(vote => vote.toString() !== userId.toString());
+            answer.votes = answer.votes + 1;
         }
 
         if (answer.upvotes.includes(userId)) {
@@ -140,6 +142,7 @@ export const downVoteAnswer = async (req, res, next) => {
         if (answer.upvotes.includes(userId)) {
             // Remove the user from upvotes
             answer.upvotes = answer.upvotes.filter(vote => vote.toString() !== userId.toString());
+            answer.votes = answer.votes - 1;
         }
 
         if (answer.downvotes.includes(userId)) {
