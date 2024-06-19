@@ -5,7 +5,7 @@ import {
     getAnswerById,
     getAnswersByQuestionId,
     updateAnswerById,
-    deleteAnswerById, getCount
+    deleteAnswerById, getCount, upVoteAnswer, downVoteAnswer
 } from '../controllers/answerController.js';
 import { verifyToken } from '../utils/verifiedUser.js';
 
@@ -16,6 +16,8 @@ router.get('/', getAllAnswers);
 
 router.get('/count', getCount);
 router.get('/:id', getAnswerById);
+router.post('/:id/upvote', verifyToken, upVoteAnswer)
+router.post('/:id/downvote', verifyToken, downVoteAnswer)
 router.get('/question/:questionId', getAnswersByQuestionId);
 router.patch('/:id', verifyToken, updateAnswerById);
 router.delete('/:id', verifyToken, deleteAnswerById);
