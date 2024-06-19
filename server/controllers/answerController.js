@@ -98,48 +98,59 @@ export const getCount = async (req, res) => {
 }
 
 
-export const upVoteAnswer = async (req, res) => {
+export const upVoteAnswer = async (req, res, next) => {
     try {
-        const answer = await Answer.findById(req.params.id);
-        if (!answer) return res.status(404).json({ message: 'Answer not found' });
+        const { id } = req.params;
+        const userId = req.user.id;
+        const answer = await Answer.findById(id);
 
-        // Check if user already upvoted
-        if (answer.upvotes.includes(req.user._id)) {
-            return res.status(400).json({ message: 'You have already upvoted this answer' });
+        if (!answer) {
+            return next(errorHandler(404, 'Answer not found.'));
         }
 
-        // Remove downvote if it exists
-        answer.downvotes = answer.downvotes.filter(userId => !userId.equals(req.user._id));
-        // Add upvote
-        answer.upvotes.push(req.user._id);
-        answer.votes += 1;
-
-        await answer.save();
-        res.status(200).json({ message: 'Answer upvoted successfully', answer });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
-
-export const downVoteAnswer = async (req, res) => {
-    try {
-        const answer = await Answer.findById(req.params.id);
-        if (!answer) return res.status(404).json({ message: 'Answer not found' });
-
-        // Check if user already downvoted
-        if (answer.downvotes.includes(req.user._id)) {
-            return res.status(400).json({ message: 'You have already downvoted this answer' });
+        if (answer.downvotes.includes(userId)) {
+            // Remove the user from downvotes
+            answer.downvotes = answer.downvotes.filter(vote => vote.toString() !== userId.toString());
         }
 
-        // Remove upvote if it exists
-        answer.upvotes = answer.upvotes.filter(userId => !userId.equals(req.user._id));
-        // Add downvote
-        answer.downvotes.push(req.user._id);
-        answer.votes -= 1;
+        if (answer.upvotes.includes(userId)) {
+            return next(errorHandler(400, 'You have already upvoted this answer.'));
+        } else {
+            answer.upvotes.push(userId);
+        }
 
         await answer.save();
-        res.status(200).json({ message: 'Answer downvoted successfully', answer });
+        res.status(200).json({ message: 'Successfully upvoted the answer.', answer });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
-}
+};
+
+
+export const downVoteAnswer = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const userId = req.user.id;
+        const answer = await Answer.findById(id);
+
+        if (!answer) {
+            return next(errorHandler(404, 'Answer not found.'));
+        }
+
+        if (answer.upvotes.includes(userId)) {
+            // Remove the user from upvotes
+            answer.upvotes = answer.upvotes.filter(vote => vote.toString() !== userId.toString());
+        }
+
+        if (answer.downvotes.includes(userId)) {
+            return next(errorHandler(400, 'You have already downvoted this answer.'));
+        } else {
+            answer.downvotes.push(userId);
+        }
+
+        await answer.save();
+        res.status(200).json({ message: 'Successfully downvoted the answer.', answer });
+    } catch (error) {
+        next(error);
+    }
+};
