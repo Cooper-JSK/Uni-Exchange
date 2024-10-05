@@ -29,7 +29,7 @@ const FeatureRequestForm = () => {
             };
 
             await emailjs.send(
-                'service_96scicg', // Replace with your EmailJS service ID
+                'service_22r7xjj', // Replace with your EmailJS service ID
                 'template_k61cnvf', // Replace with your EmailJS template ID
                 templateParams,
                 'haZaHpmtq5Jmebmif' // Replace with your EmailJS user ID
