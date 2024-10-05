@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const DashSideBar = ({ setView }) => {
+const DashBoardSideBar = ({ setView }) => {
     const [activeItem, setActiveItem] = useState('questions');
 
     const handleClick = (view) => {
@@ -28,4 +28,4 @@ const DashSideBar = ({ setView }) => {
     );
 };
 
-export default DashSideBar;
+export default DashBoardSideBar;
