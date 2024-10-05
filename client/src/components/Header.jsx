@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { useState, useEffect, useRef } from 'react';
-import logo from '../assets/images/logo.png';
+import logo from '../assets/images/uniexchange.svg';
 
 const Header = () => {
     const { isAuthenticated, userData, logout } = useAuth();
@@ -37,10 +37,12 @@ const Header = () => {
         <div className='bg-slate-50'>
             <div className='flex justify-between items-center max-w-6xl mx-auto p-3'>
                 <div className='flex items-center gap-4'>
-                    <Link to='/'>
+                    <Link to='/' className='flex items-center'>
                         <img src={logo} alt='UniExchange Logo' className='h-10 w-auto' />
+                        <span className='ml-2 text-xl font-semibold'>Uni exchange</span>
                     </Link>
                 </div>
+
 
                 <div className='flex-1 mx-2'>
                     <input

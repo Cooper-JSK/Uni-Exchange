@@ -67,19 +67,11 @@ const Dashboard = () => {
                                 <AnswerCard
                                     key={answer._id}
                                     id={answer._id}
-                                    answer={{
-                                        ...answer,
-                                        author: {
-                                            _id: userData.id,           // Use the logged-in user's ID
-                                            username: userData.username, // Use the logged-in user's username
-                                            profileImage: userData.profileImage // Use the logged-in user's profile image
-                                        }
-                                    }}
+                                    answer={answer}
                                     onVote={null} // You don't need the voting functionality here
                                     isOwnAnswer={true} // Passing true to hide voting buttons
                                 />
                             ))}
-
                         </div>
                     )}
                 </div>

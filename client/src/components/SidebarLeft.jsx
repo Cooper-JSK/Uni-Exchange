@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { fetchCategories } from '../api/apiService.js';
 
 const SidebarLeft = ({ setFilterCategory }) => {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        const fetchCategories = async () => {
+        const getCategories = async () => {
             try {
-                const response = await axios.get('http://localhost:5555/api/questions/categories');
-                setCategories(response.data);
+                const categoryData = await fetchCategories();
+                setCategories(categoryData);
             } catch (error) {
                 console.error('Failed to fetch categories', error);
             }
         };
 
-        fetchCategories();
+        getCategories();
     }, []);
 
     return (
@@ -25,7 +25,7 @@ const SidebarLeft = ({ setFilterCategory }) => {
                     <li
                         key={category}
                         className="cursor-pointer text-blue-500 hover:underline"
-                        onClick={() => setFilterCategory(category)}
+                        onClick={() => setFilterCategory(category)} // Update the filter when a category is clicked
                     >
                         {category}
                     </li>

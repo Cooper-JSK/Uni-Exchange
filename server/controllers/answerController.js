@@ -120,9 +120,9 @@ export const upVoteAnswer = async (req, res, next) => {
         if (!answer.upvotes.includes(userId)) {
             answer.upvotes.push(userId);
             if (voteChanged) {
-                answer.votes = answer.votes + 2; // Removed downvote (-1) and added upvote (+1)
+                answer.votes = Math.max(0, answer.votes + 2); // Added upvote (+1) after removing downvote (-1)
             } else {
-                answer.votes = answer.votes + 1;
+                answer.votes = Math.max(0, answer.votes + 1); // Only add upvote (+1)
             }
         } else {
             return next(errorHandler(400, 'You have already upvoted this answer.'));
@@ -134,6 +134,7 @@ export const upVoteAnswer = async (req, res, next) => {
         next(error);
     }
 };
+
 
 
 export const downVoteAnswer = async (req, res, next) => {
@@ -157,9 +158,11 @@ export const downVoteAnswer = async (req, res, next) => {
         if (!answer.downvotes.includes(userId)) {
             answer.downvotes.push(userId);
             if (voteChanged) {
-                answer.votes = answer.votes - 2; // Removed upvote (+1) and added downvote (-1)
+                // If the user had an upvote before
+                // Prevent the votes from going negative
+                answer.votes = Math.max(0, answer.votes - 2); // Remove upvote (+1) and add downvote (-1)
             } else {
-                answer.votes = answer.votes - 1;
+                answer.votes = Math.max(0, answer.votes - 1); // Only add downvote (-1)
             }
         } else {
             return next(errorHandler(400, 'You have already downvoted this answer.'));

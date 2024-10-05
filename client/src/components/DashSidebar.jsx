@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const DashSidebar = ({ setView }) => {
     const [activeItem, setActiveItem] = useState('questions');

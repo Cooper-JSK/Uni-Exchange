@@ -10,12 +10,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tiptap/extension-color": "^2.8.0",
+    "@tiptap/extension-list-item": "^2.8.0",
+    "@tiptap/extension-text-style": "^2.8.0",
+    "@tiptap/pm": "^2.8.0",
+    "@tiptap/react": "^2.8.0",
+    "@tiptap/starter-kit": "^2.8.0",
     "axios": "^1.7.2",
     "emailjs-com": "^3.2.0",
     "jwt-decode": "^4.0.0",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
+    "react-icons": "^5.3.0",
     "react-router-dom": "^6.23.1"
   },
   "devDependencies": {

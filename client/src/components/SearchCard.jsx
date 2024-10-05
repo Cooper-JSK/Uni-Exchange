@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Link } from 'react-router-dom';
 
 const SearchCard = ({ title, content, tags, author, isAnswer, questionTitle }) => {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import {fetchQuestions} from "../api/apiService.js";
 import toast from 'react-hot-toast';
 import QuestionCard from './QuestionCard';
 
@@ -7,16 +7,16 @@ const Questions = () => {
     const [questions, setQuestions] = useState([]);
 
     useEffect(() => {
-        const fetchQuestions = async () => {
+        const getQuestions = async () => {
             try {
-                const response = await axios.get('http://localhost:5555/api/questions');
-                setQuestions(response.data);
+                const questionsData = await fetchQuestions(); // Call the service function
+                setQuestions(questionsData);
             } catch (error) {
                 console.error('Error fetching questions:', error);
                 toast.error('Failed to fetch questions. Please try again later.');
             }
         };
-        fetchQuestions();
+        getQuestions();
     }, []);
 
     return (

@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../contexts/AuthContext.jsx';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+
+import {  useParams } from 'react-router-dom';
+import { fetchUserProfile, fetchUserRecentAnswers, fetchUserRecentQuestions} from "../api/apiService.js";
+
 import { Link } from 'react-router-dom';
+import RenderJSON from "../components/RenderJSON.jsx";
 
 const Profile = () => {
-    const { userData, logout } = useAuth();
-    const navigate = useNavigate();
+
     const { id } = useParams(); // to get the user id from URL
     const [profileData, setProfileData] = useState(null);
     const [recentQuestions, setRecentQuestions] = useState([]);
@@ -15,8 +16,8 @@ const Profile = () => {
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
-                const response = await axios.get(`http://localhost:5555/api/user/${id}`);
-                setProfileData(response.data);
+                const data = await fetchUserProfile(id); // Use the service function
+                setProfileData(data);
             } catch (error) {
                 console.error('Error fetching profile data:', error);
             }
@@ -24,8 +25,8 @@ const Profile = () => {
 
         const fetchRecentQuestions = async () => {
             try {
-                const response = await axios.get(`http://localhost:5555/api/user/${id}/questions`);
-                setRecentQuestions(response.data);
+                const data = await fetchUserRecentQuestions(id); // Use the service function
+                setRecentQuestions(data);
             } catch (error) {
                 console.error('Error fetching recent questions:', error);
             }
@@ -33,8 +34,8 @@ const Profile = () => {
 
         const fetchRecentAnswers = async () => {
             try {
-                const response = await axios.get(`http://localhost:5555/api/user/${id}/answers`);
-                setRecentAnswers(response.data);
+                const data = await fetchUserRecentAnswers(id); // Use the service function
+                setRecentAnswers(data);
             } catch (error) {
                 console.error('Error fetching recent answers:', error);
             }
@@ -82,7 +83,7 @@ const Profile = () => {
                                 recentAnswers.map((answer) => (
                                     <div key={answer._id} className="bg-white p-4 mb-4 rounded-lg shadow-md">
                                         <Link to={`/question/${answer.question}`}>
-                                            <p>{answer.content}</p>
+                                            <div><RenderJSON content={answer.content}/></div>
                                         </Link>
                                     </div>
                                 ))

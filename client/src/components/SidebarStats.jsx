@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { fetchStats } from '../api/apiService'; // Import the service function
 
 const SidebarStats = () => {
     const [stats, setStats] = useState({
@@ -9,23 +9,16 @@ const SidebarStats = () => {
     });
 
     useEffect(() => {
-        const fetchStats = async () => {
+        const getStats = async () => {
             try {
-                const questionsResponse = await axios.get('http://localhost:5555/api/questions/count');
-                const answersResponse = await axios.get('http://localhost:5555/api/answer/count');
-                const usersResponse = await axios.get('http://localhost:5555/api/user/count');
-
-                setStats({
-                    questions: questionsResponse.data.count,
-                    answers: answersResponse.data.count,
-                    users: usersResponse.data.count
-                });
+                const statsData = await fetchStats(); // Call the service function
+                setStats(statsData);
             } catch (error) {
                 console.error('Failed to fetch stats', error);
             }
         };
 
-        fetchStats();
+        getStats();
     }, []);
 
     return (

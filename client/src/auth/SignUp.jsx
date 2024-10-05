@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import signUpImage from '../assets/images/sign-up.svg';
 import useSignUp from '../hooks/useSignUp.jsx';
+import { RiEyeLine, RiEyeCloseFill } from "react-icons/ri"; // Import eye icons
 
 const SignUpPage = () => {
     const [formData, setFormData] = useState({
@@ -14,6 +15,8 @@ const SignUpPage = () => {
 
     const { registerUser, loading, error } = useSignUp();
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false); // State for password visibility
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for confirm password visibility
 
     const handleChange = (e) => {
         setFormData({
@@ -36,7 +39,6 @@ const SignUpPage = () => {
             toast.error('Failed to sign up.');
         }
     };
-
 
     return (
         <div className="flex items-center justify-center h-screen bg-gray-100">
@@ -75,29 +77,41 @@ const SignUpPage = () => {
                                 required
                             />
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-4 relative"> {/* Add relative positioning for password input */}
                             <label htmlFor="password" className="block text-gray-700 font-bold mb-2">Password</label>
                             <input
-                                type="password"
+                                type={showPassword ? 'text' : 'password'} // Toggle password visibility
                                 id="password"
                                 name="password"
                                 value={formData.password}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 pr-10" // Add right padding for icon
                                 required
                             />
+                            <span
+                                onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+                                className="absolute right-3 top-10 cursor-pointer" // Position the icon
+                            >
+                                {showPassword ? <RiEyeLine /> : <RiEyeCloseFill />}
+                            </span>
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-4 relative"> {/* Add relative positioning for confirm password input */}
                             <label htmlFor="confirmPassword" className="block text-gray-700 font-bold mb-2">Confirm Password</label>
                             <input
-                                type="password"
+                                type={showConfirmPassword ? 'text' : 'password'} // Toggle confirm password visibility
                                 id="confirmPassword"
                                 name="confirmPassword"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 pr-10" // Add right padding for icon
                                 required
                             />
+                            <span
+                                onClick={() => setShowConfirmPassword(!showConfirmPassword)} // Toggle confirm password visibility
+                                className="absolute right-3 top-10 cursor-pointer" // Position the icon
+                            >
+                                {showConfirmPassword ? <RiEyeLine /> : <RiEyeCloseFill />}
+                            </span>
                         </div>
                         {error && <p className="text-red-500 mb-4">{error}</p>}
                         <button

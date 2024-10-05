@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { searchContent} from "../api/apiService.js";
 import SearchCard from '../components/SearchCard';
 
 const SearchResults = () => {
@@ -11,15 +12,15 @@ const SearchResults = () => {
     useEffect(() => {
         const fetchResults = async () => {
             try {
-                const response = await axios.get(`http://localhost:5555/api/search?query=${query}`);
-                setResults(response.data);
+                const searchResults = await searchContent(query); // Call the service function
+                setResults(searchResults);
             } catch (error) {
                 console.error('Failed to fetch search results', error);
             }
         };
 
         fetchResults();
-    }, [location.search]);
+    }, [location.search, query]);
 
     return (
         <div className="flex justify-center">

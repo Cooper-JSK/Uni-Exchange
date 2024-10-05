@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { getAnswerById, updateAnswer } from "../api/apiService.js";
 import toast from 'react-hot-toast';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import SidebarLeft from '../components/SidebarLeft.jsx';
 import SidebarStats from '../components/SidebarStats.jsx';
+import TipTap from '../components/TipTap.jsx';  // Import the TipTap editor
 
 const EditAnswer = () => {
     const { id } = useParams(); // This is the answer ID
     const navigate = useNavigate();
-    const { userData, token } = useAuth();
+    const { token } = useAuth();
     const [content, setContent] = useState('');
     const [questionId, setQuestionId] = useState(''); // Store the question ID
 
     useEffect(() => {
         const fetchAnswer = async () => {
             try {
-                const response = await axios.get(`http://localhost:5555/api/answer/${id}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setContent(response.data.content);
-                setQuestionId(response.data.question); // Save the question ID
+                const answerData = await getAnswerById(id, token); // Use service function to get answer
+                setContent(answerData.content);
+                setQuestionId(answerData.question); // Save the question ID
             } catch (error) {
                 console.error('Error fetching answer:', error);
                 toast.error('Failed to load answer.');
@@ -34,9 +33,7 @@ const EditAnswer = () => {
         e.preventDefault();
 
         try {
-            await axios.patch(`http://localhost:5555/api/answer/${id}`, { content }, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            await updateAnswer(id, content, token); // Use service function to update answer
             toast.success('Answer updated successfully');
             navigate(`/question/${questionId}`); // Navigate to the related question page
         } catch (error) {
@@ -53,19 +50,13 @@ const EditAnswer = () => {
                 </div>
                 <div className="w-full md:w-3/5 mx-4">
                     <div className="p-5 my-3 border rounded shadow-md bg-white">
-                        <h2 className="text-2xl font-bold mb-4">Edit Answer</h2>
+                        <h2 className="text-2xl font-bold mb-4 text-left">Edit Answer</h2>
                         <form onSubmit={handleSubmit}>
-                            <textarea
-                                className="w-full p-2 border rounded mb-4"
-                                rows="6"
-                                placeholder="Write your answer here..."
-                                value={content}
-                                onChange={(e) => setContent(e.target.value)}
-                                required
-                            />
+                            {/* Use TipTap editor for content */}
+                            <TipTap content={content} setContent={setContent} required />
                             <button
                                 type="submit"
-                                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 mt-4"
                             >
                                 Update Answer
                             </button>

@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { submitAnswer } from "../api/apiService.js";
 import toast from 'react-hot-toast';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import SidebarLeft from '../components/SidebarLeft.jsx';
 import SidebarStats from '../components/SidebarStats.jsx';
+import TipTap from '../components/TipTap.jsx';  // Import TipTap editor
 
 const GiveAnswer = () => {
     const { id } = useParams();
-    const [content, setContent] = useState('');
+    const [content, setContent] = useState('');  // Store rich text content here
     const navigate = useNavigate();
     const { userData, token } = useAuth(); // Get the user data and token from the AuthContext
 
@@ -20,16 +21,20 @@ const GiveAnswer = () => {
             return;
         }
 
+        // Ensure content is not empty
+        if (!content.trim()) {
+            toast.error('Answer content cannot be empty.');
+            return;
+        }
+
+        const answerData = {
+            content,
+            question: id,
+            author: userData.id, // Use the user ID from the AuthContext
+        };
+
         try {
-            const response = await axios.post(`http://localhost:5555/api/answer`, {
-                content,
-                question: id,
-                author: userData.id, // Use the user ID from the AuthContext
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token}`, // Include the token in the request headers
-                },
-            });
+            await submitAnswer(answerData, token); // Use the service function to submit the answer
 
             toast.success('Answer submitted successfully');
             navigate(`/question/${id}`);
@@ -49,14 +54,9 @@ const GiveAnswer = () => {
                     <div className="p-5 my-3 border rounded shadow-md bg-white">
                         <h2 className="text-2xl font-bold mb-4">Give an Answer</h2>
                         <form onSubmit={handleSubmit}>
-                            <textarea
-                                className="w-full p-2 border rounded mb-4"
-                                rows="6"
-                                placeholder="Write your answer here..."
-                                value={content}
-                                onChange={(e) => setContent(e.target.value)}
-                                required
-                            />
+                            <div className="mb-4">
+                                <TipTap content={content} setContent={setContent} />  {/* Use TipTap editor */}
+                            </div>
                             <button
                                 type="submit"
                                 className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"

@@ -1,70 +1,54 @@
-import React, { useState, useEffect } from 'react';
+// src/components/Form.jsx
+import { useState } from 'react';
+import TipTap from './TipTap.jsx';
 
-const QAForm = ({ initialData, onSubmit, formType }) => {
-    const [title, setTitle] = useState(initialData?.title || '');
-    const [content, setContent] = useState(initialData?.content || '');
-    const [category, setCategory] = useState(initialData?.category || '');
+const QAForm = ({ onSubmit, formType }) => {
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState(''); // For rich text content
+    const [categories, setCategories] = useState('');
 
-    useEffect(() => {
-        if (initialData) {
-            setTitle(initialData.title || '');
-            setContent(initialData.content || '');
-            setCategory(initialData.category || '');
-        }
-    }, [initialData]);
-
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        const formData = { title, content, category };
-        await onSubmit(formData);
+        const formData = {
+            title,
+            content,  // Content now contains the rich text HTML
+            categories,
+        };
+        onSubmit(formData);
     };
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-4 bg-white shadow-md rounded">
-            {formType === 'question' && (
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
-                        Title
-                    </label>
-                    <input
-                        type="text"
-                        id="title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                        className="w-full px-3 py-2 border rounded"
-                    />
-                </div>
-            )}
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="content">
-                    Content
-                </label>
-                <textarea
-                    id="content"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    required
-                    className="w-full px-3 py-2 border rounded"
-                ></textarea>
+        <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+                <label className="block text-sm font-medium text-gray-700">Title</label>
+                <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="mt-1 p-2 border rounded-md w-full"
+                    placeholder="Enter the title of your question"
+                />
             </div>
-            {formType === 'question' && (
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">
-                        Category
-                    </label>
-                    <input
-                        type="text"
-                        id="category"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        required
-                        className="w-full px-3 py-2 border rounded"
-                    />
-                </div>
-            )}
-            <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Submit
+            <div>
+                <label className="block text-sm font-medium text-gray-700">Content</label>
+                {/* TipTap to handle content */}
+                <TipTap content={content} setContent={setContent} />
+            </div>
+            <div>
+                <label className="block text-sm font-medium text-gray-700">Categories (comma separated)</label>
+                <input
+                    type="text"
+                    value={categories}
+                    onChange={(e) => setCategories(e.target.value)}
+                    className="mt-1 p-2 border rounded-md w-full"
+                    placeholder="e.g., JavaScript, React"
+                />
+            </div>
+            <button
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            >
+                {formType === 'question' ? 'Submit Question' : 'Submit Answer'}
             </button>
         </form>
     );

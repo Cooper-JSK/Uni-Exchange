@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import signInImage from '../assets/images/signin.svg';
 import useSignIn from '../hooks/useSignIn';
+import { RiEyeLine, RiEyeCloseFill } from "react-icons/ri"; // Import eye icons
 
 const SignInPage = () => {
     const { error, loading, signInUser } = useSignIn();
@@ -10,6 +11,7 @@ const SignInPage = () => {
         email: '',
         password: '',
     });
+    const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -21,8 +23,8 @@ const SignInPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const success = await signInUser(formData);
-        if (success) {
+        const response = await signInUser(formData);
+        if (response.success === true) {
             toast.success('Successfully signed in!');
             navigate('/');
         } else {
@@ -55,17 +57,23 @@ const SignInPage = () => {
                                 required
                             />
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-4 relative"> {/* Add relative positioning for the password field */}
                             <label htmlFor="password" className="block text-gray-700 font-bold mb-2">Password</label>
                             <input
-                                type="password"
+                                type={showPassword ? 'text' : 'password'} // Toggle between text and password
                                 id="password"
                                 name="password"
                                 value={formData.password}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+                                className="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500 pr-10" // Add right padding for icon
                                 required
                             />
+                            <span
+                                onClick={() => setShowPassword(!showPassword)} // Toggle the password visibility
+                                className="absolute right-3 top-10 cursor-pointer" // Position the icon
+                            >
+                                {showPassword ? <RiEyeLine /> : <RiEyeCloseFill />}
+                            </span>
                         </div>
                         {error && <p className="text-red-500 mb-4">{error}</p>}
                         <button

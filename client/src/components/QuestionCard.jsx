@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+
 import { Link } from 'react-router-dom';
+import RenderJSON from "./RenderJSON.jsx";
 
 const QuestionCard = ({
     id,
@@ -26,7 +27,7 @@ const QuestionCard = ({
                     </Link>)}
                 <div>
                     <p className="text-sm font-semibold">{author}</p>
-                    <p className="text-xs text-gray-500">{createdAt}</p>
+                    <p className="text-xs text-gray-500">{new Date(createdAt).toLocaleString()}</p>
                 </div>
             </div>
             <div className="mb-4">
@@ -35,7 +36,7 @@ const QuestionCard = ({
                 </Link>
             </div>
             <div className="mb-4">
-                <p className="text-gray-700">{content}</p>
+                <div className="text-gray-700"><RenderJSON content={content}/></div>
             </div>
             <div className="mt-auto flex justify-between">
                 <div className="flex flex-wrap">

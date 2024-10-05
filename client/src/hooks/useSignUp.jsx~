@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { signUp} from "../api/apiService.js";
-
+import axios from "axios";
 
 const useSignUp = () => {
     const { login } = useAuth();

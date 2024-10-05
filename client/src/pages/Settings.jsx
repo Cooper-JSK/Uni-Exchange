@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext.jsx';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import { deleteUserProfile} from "../api/apiService.js";
 import toast from 'react-hot-toast';
 import UpdateProfile from '../components/UpdateProfile.jsx';
 import ManageContent from '../components/ManageContent.jsx';
@@ -14,10 +14,7 @@ const Settings = () => {
 
     const handleDeleteProfile = async () => {
         try {
-            await axios.delete(`http://localhost:5555/api/user/${id}`, {
-                data: { deleteContent },
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            await deleteUserProfile(id, deleteContent, token); // Use the service function
             toast.success('Profile deleted successfully');
             logout();
             navigate('/');
