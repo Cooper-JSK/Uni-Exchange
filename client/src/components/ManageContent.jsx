@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { fetchUserAnswers, fetchUserQuestions, deleteAnswer, deleteQuestion } from "../api/apiService.js";
+import { useState, useEffect } from 'react';
+import { fetchUserAnswers, fetchUserQuestions, deleteAnswer, deleteQuestion } from "@/api/apiService.js";
 import toast from 'react-hot-toast';
-import { useAuth } from '../contexts/AuthContext.jsx';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 import { useParams, Link } from 'react-router-dom';
 import RenderJSON from "./RenderJSON.jsx";
 

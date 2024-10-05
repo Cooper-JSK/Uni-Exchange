@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
-import { searchContent} from "../api/apiService.js";
-import SearchCard from '../components/SearchCard';
+
+import { searchContent} from "@/api/apiService.js";
+import SearchCard from '@/components/SearchCard';
 
 const SearchResults = () => {
     const [results, setResults] = useState({ questions: [], answers: [] });

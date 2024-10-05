@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {fetchQuestions} from "../api/apiService.js";
+import {fetchQuestions} from "@/api/apiService.js";
 import toast from 'react-hot-toast';
 import QuestionCard from './QuestionCard';
 

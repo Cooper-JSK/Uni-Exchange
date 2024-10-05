@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchCategories } from '../api/apiService.js';
+import { fetchCategories } from '@/api/apiService.js';
 
 const SidebarLeft = ({ setFilterCategory }) => {
     const [categories, setCategories] = useState([]);

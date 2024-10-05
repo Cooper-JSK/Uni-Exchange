@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext.jsx';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteUserProfile} from "../api/apiService.js";
+import { deleteUserProfile} from "@/api/apiService.js";
 import toast from 'react-hot-toast';
-import UpdateProfile from '../components/UpdateProfile.jsx';
-import ManageContent from '../components/ManageContent.jsx';
+import UpdateProfile from '@/components/UpdateProfile.jsx';
+import ManageContent from '@/components/ManageContent.jsx';
 
 const Settings = () => {
     const { logout, token } = useAuth();

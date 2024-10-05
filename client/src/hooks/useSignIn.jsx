@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAuth } from "../contexts/AuthContext.jsx";
-import{ signIn} from "../api/apiService.js";
+import { useAuth } from "@/contexts/AuthContext.jsx";
+import{ signIn} from "@/api/apiService.js";
 
 
 const useSignIn = () => {

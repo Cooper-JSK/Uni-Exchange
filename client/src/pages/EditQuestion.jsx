@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getQuestionById, updateQuestion } from "../api/apiService.js";
+import { getQuestionById, updateQuestion } from "@/api/apiService.js";
 import toast from 'react-hot-toast';
-import { useAuth } from '../contexts/AuthContext';
-import SidebarLeft from '../components/SidebarLeft.jsx';
-import SidebarStats from '../components/SidebarStats.jsx';
-import TipTap from '../components/TipTap.jsx';  // Import the TipTap editor
+import { useAuth } from '@/contexts/AuthContext';
+import SidebarLeft from '@/components/SidebarLeft.jsx';
+import SidebarStats from '@/components/SidebarStats.jsx';
+import TipTap from '@/components/TipTap.jsx';  // Import the TipTap editor
 
 const EditQuestion = () => {
     const { id } = useParams();

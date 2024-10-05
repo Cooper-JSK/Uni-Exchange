@@ -1,10 +1,10 @@
 // src/pages/AskQuestion.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { postQuestion } from '../api/apiService';
+import { postQuestion } from '@/api/apiService';
 import toast from 'react-hot-toast';
-import { useAuth } from '../contexts/AuthContext';
-import TipTap from '../components/TipTap.jsx';  // Import the new editor
+import { useAuth } from '@/contexts/AuthContext';
+import TipTap from '@/components/TipTap.jsx';  // Import the new editor
 
 const AskQuestion = () => {
     const [title, setTitle] = useState('');

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useAuth } from '@/contexts/AuthContext.jsx';
+import { useAuth } from '../contexts/AuthContext.jsx';
 import { useNavigate, useParams } from 'react-router-dom';
-import { updateProfile } from "@/api/apiService.js";
+import { updateProfile } from "../api/apiService.js";
 import { RiEyeLine, RiEyeCloseFill } from "react-icons/ri";
 
 const UpdateProfile = () => {

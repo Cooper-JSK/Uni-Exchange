@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext.jsx';
-import { upvoteAnswer, downvoteAnswer } from "../api/apiService.js";
+import { useAuth } from '@/contexts/AuthContext.jsx';
+import { upvoteAnswer, downvoteAnswer } from "@/api/apiService.js";
 import { toast } from 'react-hot-toast';
 import RenderJSON from "./RenderJSON.jsx";
 

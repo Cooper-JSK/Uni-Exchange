@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import signInImage from '../assets/images/signin.svg';
-import useSignIn from '../hooks/useSignIn';
+import signInImage from '@/assets/images/signin.svg';
+import useSignIn from '@/hooks/useSignIn';
 import { RiEyeLine, RiEyeCloseFill } from "react-icons/ri"; // Import eye icons
 
 const SignInPage = () => {

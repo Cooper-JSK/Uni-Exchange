@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { fetchQuestionAndAnswers } from "../api/apiService.js";
+import { fetchQuestionAndAnswers } from "@/api/apiService.js";
 import toast from 'react-hot-toast';
-import SidebarLeft from "../components/SidebarLeft.jsx";
-import SidebarStats from "../components/SidebarStats.jsx";
-import AnswerCard from "../components/AnswerCard.jsx";
-import RenderJSON from "../components/RenderJSON.jsx";
+import SidebarLeft from "@/components/SidebarLeft.jsx";
+import SidebarStats from "@/components/SidebarStats.jsx";
+import AnswerCard from "@/components/AnswerCard.jsx";
+import RenderJSON from "@/components/RenderJSON.jsx";
 
 const ViewQuestion = ({ filterCategory, setFilterCategory }) => {
     const { id } = useParams();

@@ -1,6 +1,6 @@
-import Questions from "../components/Questions.jsx";
-import SidebarLeft from "../components/SidebarLeft.jsx";
-import SidebarStats from "../components/SidebarStats.jsx";
+import Questions from "@/components/Questions.jsx";
+import SidebarLeft from "@/components/SidebarLeft.jsx";
+import SidebarStats from "@/components/SidebarStats.jsx";
 
 const HomePage = ({ filterCategory, setFilterCategory }) => {
     return (

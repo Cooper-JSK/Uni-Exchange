@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../contexts/AuthContext.jsx';
-import { getUserAnswers, getUserQuestions } from "../api/apiService.js";
-import QuestionCard from '../components/QuestionCard.jsx';
-import AnswerCard from '../components/AnswerCard.jsx';
-import DashSideBar from 'client/src/components/DashSideBar.jsx';
+import { useAuth } from '@/contexts/AuthContext.jsx';
+import { getUserAnswers, getUserQuestions } from "@/api/apiService.js";
+import QuestionCard from '@/components/QuestionCard.jsx';
+import AnswerCard from '@/components/AnswerCard.jsx';
+import DashSideBar from '@/components/DashSideBar.jsx';
+
 
 const Dashboard = () => {
     const { userData } = useAuth();

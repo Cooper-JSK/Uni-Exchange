@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext.jsx';
+import { useAuth } from '@/contexts/AuthContext.jsx';
 import { useState, useEffect, useRef } from 'react';
-import logo from '../assets/images/uniexchange.svg';
+import logo from '@/assets/images/uniexchange.svg';
 
 const Header = () => {
     const { isAuthenticated, userData, logout } = useAuth();

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchStats } from '../api/apiService'; // Import the service function
+import { fetchStats } from '@/api/apiService'; // Import the service function
 
 const SidebarStats = () => {
     const [stats, setStats] = useState({
