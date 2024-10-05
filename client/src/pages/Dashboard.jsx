@@ -9,7 +9,7 @@ const Dashboard = () => {
     const { userData } = useAuth();
     const [questions, setQuestions] = useState([]);
     const [answers, setAnswers] = useState([]);
-    const [view, setView] = useState('questions');
+    const [view, setView] = useState('questions')
 
     useEffect(() => {
         const fetchUserData = async () => {
